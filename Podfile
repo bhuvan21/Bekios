@@ -7,4 +7,5 @@ target 'Βέκος' do
 
   # Pods for Βέκος
   pod 'Socket.IO-Client-Swift', '~> 11.1.3'
+  pod 'SwiftyJSON'
 end

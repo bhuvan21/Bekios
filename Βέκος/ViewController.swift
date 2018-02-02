@@ -7,14 +7,19 @@
 //
 
 import UIKit
+import SocketIO
 
 class ViewController: UIViewController {
 
+    let socket = SocketIOClient(socketURL: URL(string:"http://www.xn--nxagpuu.com/")!)
+    
     @IBOutlet weak var bekosBut: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        socket.connect()
+        bekosBut.center = self.view.center
     }
 
     override func didReceiveMemoryWarning() {
@@ -23,7 +28,8 @@ class ViewController: UIViewController {
     }
 
     @IBAction func bekosButPressed(_ sender: UIButton) {
-        print("yey")
+        socket.emit("BEKOS", "asnee")
+        print("emmitted")
         
     }
 
