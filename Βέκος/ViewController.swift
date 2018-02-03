@@ -17,14 +17,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
     
     let url = NSURL(string: "http://www.xn--nxagpuu.com/audio?format=json")
     
-    
-    var text : String = ""
-    
-    
-    
     var player:AVPlayer?
-    var playerItem:AVPlayerItem?
-    var playButton:UIButton?
+
     
     var sounds : [AVPlayerItem] = []
     var sound_urls : [URL] = []
@@ -43,27 +37,23 @@ class ViewController: UIViewController, UITextFieldDelegate {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         socket.connect()
+        
+        
         bekosBut.center = self.view.center
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "dismissKeyboard")
         view.addGestureRecognizer(tap)
         self.bekID.delegate = self;
-    
-        
+
         socket.on("BEEKOS") {data, ack in
             print("emmitted")
-            
             self.beekos = JSON(data)
-            
             self.latestBek.text = self.beekos[0]["message"].description
-            
             
             self.play(url: self.sound_urls[Int(self.beekos[0]["sound"].description)!])
             
             //AudioServicesPlayAlertSound(kSystemSoundID_Vibrate);
         }
-        
         update_sounds()
-
     }
 
     override func didReceiveMemoryWarning() {
@@ -88,7 +78,6 @@ class ViewController: UIViewController, UITextFieldDelegate {
         } else {
             // the URL was bad!
         }
-    
     }
     
     func update_sounds(){
@@ -104,19 +93,14 @@ class ViewController: UIViewController, UITextFieldDelegate {
             self.sounds.append(playerItem)
             self.sound_urls.append(url!)
         }
-        
-        
-        
     }
     
     
     func play(url:URL) {
         print("playing \(url)")
-        
         do {
-            
             let playerItem = AVPlayerItem(url: url)
-            
+    
             self.player = try AVPlayer(playerItem:playerItem)
             player!.volume = 1.0
             player!.play()
